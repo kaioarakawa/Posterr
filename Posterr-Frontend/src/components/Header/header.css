@@ -1,0 +1,66 @@
+.header-wrapper {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 8px; /* Adjust padding as needed */
+    background: #0e0e10; /* Use your background color */
+    border-bottom: 1px solid #2f3336; /* variables.$divider or custom color */
+  }
+  
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px; /* Adjust padding as needed */
+  }
+  
+  .poster-title {
+    font-size: 24px; /* Adjust font size as needed */
+    font-weight: bold;
+    color: #2979FF; /* variables.$color-active or custom color */
+    margin-right: 16px; /* Adjust margin as needed */
+  }
+  
+  .header-buttons-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-buttons-container a {
+    display: flex;
+    align-items: center;
+    color: #fff; /* variables.$color-text-main or custom color */
+    text-decoration: none;
+    margin-right: 16px; /* Adjust margin as needed */
+  }
+  
+  .header-user-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push to the right */
+  }
+  
+  .header-user-container img {
+    border-radius: 50%;
+    height: 40px; /* Adjust height as needed */
+    width: 40px; /* Adjust width as needed */
+    margin-right: 8px; /* Adjust margin as needed */
+  }
+  
+  .header-user-container select {
+    appearance: none;
+    background-color: transparent;
+    color: #a51616; /* variables.$color-text-main or custom color */
+    border: none;
+    padding: 8px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .header-user-container select:hover,
+  .header-user-container select:focus {
+    border-bottom: 2px solid #2979FF; /* Highlight on hover/focus */
+  }
+  

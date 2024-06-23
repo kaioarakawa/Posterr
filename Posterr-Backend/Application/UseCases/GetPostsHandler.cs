@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.UseCases
@@ -17,6 +16,7 @@ namespace Application.UseCases
         public int Take { get; set; }
         public string SortBy { get; set; }
         public string? Keyword { get; set; }
+        public Guid? UserId { get; set; }
     }
 
     public class GetPostsHandler
@@ -28,9 +28,13 @@ namespace Application.UseCases
             _postRepository = postRepository;
         }
 
-        public async Task<List<PostDto>> Handle(GetPostsRequest request)
+        public async Task<GetPostsResponse> Handle(GetPostsRequest request)
         {
-            var posts = await _postRepository.GetPostsAsync(request.Skip, request.Take, request.SortBy, request.Keyword);
+            // Get total count of posts for pagination
+            int totalPosts = await _postRepository.GetTotalPostsCountAsync(request.Keyword, request.UserId);
+
+            // Get the posts for the current page
+            var posts = await _postRepository.GetPostsAsync(request.Skip, request.Take, request.SortBy, request.Keyword, request.UserId);
 
             var postDtos = new List<PostDto>();
 
@@ -39,9 +43,17 @@ namespace Application.UseCases
                 var postDto = new PostDto
                 {
                     Id = post.Id,
-                    Username = post.User.Username,
                     Content = post.Content,
                     CreatedAt = post.CreatedAt
+                };
+
+                postDto.User = new UserDto
+                {
+                    Id = post.User.Id,
+                    Name = post.User.Name,
+                    Username = post.User.Username,
+                    TotalPosts = 0,
+                    CreatedAt = post.User.CreatedAt
                 };
 
                 // Check if this post has an original post
@@ -50,16 +62,32 @@ namespace Application.UseCases
                     // Map the original post to OriginalPost property
                     postDto.OriginalPost = new PostDto
                     {
-                        Username = post.OriginalPost.User.Username,
                         Content = post.OriginalPost.Content,
                         CreatedAt = post.OriginalPost.CreatedAt
+                    };
+
+                    postDto.OriginalPost.User = new UserDto
+                    {
+                        Id = post.OriginalPost.User.Id,
+                        Name = post.OriginalPost.User.Name,
+                        Username = post.OriginalPost.User.Username,
+                        TotalPosts = 0,
+                        CreatedAt = post.OriginalPost.User.CreatedAt
                     };
                 }
 
                 postDtos.Add(postDto);
             }
 
-            return postDtos;
+            // Calculate current page based on skip and take
+            int currentPage = (request.Skip / request.Take) + 1;
+
+            return new GetPostsResponse
+            {
+                CurrentPage = currentPage,
+                TotalPosts = totalPosts,
+                Posts = postDtos
+            };
         }
     }
 }

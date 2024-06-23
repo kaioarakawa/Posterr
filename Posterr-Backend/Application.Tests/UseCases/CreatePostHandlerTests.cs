@@ -20,7 +20,7 @@ namespace Application.Tests.UseCases
                 Content = "Test post content"
             };
 
-            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId))
+            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow))
                           .ReturnsAsync(0); // Mocking GetUserPostCountAsync to return 0
 
             // Act
@@ -42,7 +42,7 @@ namespace Application.Tests.UseCases
                 Content = "Test post content"
             };
 
-            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId))
+            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow))
                           .ReturnsAsync(5); // Mocking GetUserPostCountAsync to return 5 (limit exceeded)
 
             // Act & Assert
@@ -62,7 +62,7 @@ namespace Application.Tests.UseCases
                 PostId = 1 // Assuming PostId exists for testing
             };
 
-            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId))
+            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow))
                           .ReturnsAsync(0); // Mocking GetUserPostCountAsync to return 0
 
             mockRepository.Setup(repo => repo.GetPostByIdAsync(request.PostId))

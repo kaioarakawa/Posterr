@@ -1,0 +1,77 @@
+.post-form-wrapper {
+    display: flex;
+    padding: 16px;
+  
+    > img {
+      border-radius: 100%;
+      height: 48px; /* 2 * $space-large (24px) */
+  
+      @media (min-width: 600px) { /* $media-query-min-width */
+        height: 64px; /* 2 * $space-larger (32px) */
+      }
+    }
+  
+    .post-form-container {
+      width: 100%;
+      padding: 0 16px;
+  
+      > textarea {
+        width: 100%;
+        resize: vertical;
+        overflow: auto;
+        font-family: inherit;
+        font-size: medium;
+        min-height: 48px; /* 2 * $space-large (24px) */
+        max-height: 192px; /* 8 * $space-large (24px) */
+      }
+  
+      > .post-limit-warn {
+        color: #e7dc0e; /* $color-warn */
+      }
+  
+      .post-form-button-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 8px 0 8px; /* $space-small */
+  
+        > span {
+          color: #71767b; /* $color-text-secondary */
+          padding-right: 8px; /* $space-small */
+          border-right: solid 1px #2f3336; /* $divider */
+          font-weight: bold;
+        }
+  
+        > button {
+          border: none;
+          font-weight: bold;
+          color: #fff; /* $color-text-main */
+          background: #2979FF; /* $color-active */
+          font-size: medium;
+          border-radius: 16px; /* $space-medium */
+          margin-left: 8px; /* $space-small */
+          padding: 8px; /* $space-small */
+  
+          > span {
+            margin: 0 8px; /* $space-small */
+          }
+  
+          &:hover {
+            cursor: pointer;
+            opacity: 0.85;
+          }
+  
+          &:disabled {
+            color: #C6C6C6; /* $color-text-disabled */
+            background: #EBEBE4; /* $color-disabled */
+  
+            &:hover {
+              cursor: auto;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  

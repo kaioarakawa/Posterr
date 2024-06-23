@@ -1,27 +1,39 @@
 ﻿using Application.DTOs;
 using Domain.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.UseCases
 {
     public class GetUserHandler
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPostRepository _postRepository;
 
-        public GetUserHandler(IUserRepository userRepository)
+        public GetUserHandler(IUserRepository userRepository, IPostRepository postRepository)
         {
             _userRepository = userRepository;
+            _postRepository = postRepository;
         }
 
-        public async Task<List<UserDto>> Handle()
+        public async Task<UserDto> Handle(Guid id)
         {
-            var users = await _userRepository.GetUsersAsync();
+            var user = await _userRepository.GetUserByIdAsync(id) ?? throw new Exception("User not found");
+            var totalPosts = await _postRepository.GetUserPostCountAsync(user.Id);
 
-            return users.Select(u => new UserDto
+            var userDto = new UserDto
             {
-                Id = u.Id,
-                Username = u.Username,
-                CreatedAt = u.CreatedAt
-            }).ToList();
+                Id = user.Id,
+                Name = user.Name,
+                Username = user.Username,
+                TotalPosts = totalPosts,
+                CreatedAt = user.CreatedAt,
+            };
+
+            return userDto;
         }
     }
 }

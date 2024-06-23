@@ -1,0 +1,39 @@
+.posts-wrapper {
+    padding: 16px;
+  
+    > .post-wrapper {
+      border: solid 1px #2f3336;
+      background: #16181c; 
+      border-radius: 8px;
+      margin-bottom: 8px; 
+  
+      > .post-buttons-container {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 8px 0 16px 0;
+  
+        button {
+          display: flex;
+          border: none;
+          border-radius: 100%;
+          color: #fff;
+          background: inherit;
+          margin-left: 8px;
+          padding: 8px;
+  
+          &:hover {
+            cursor: pointer;
+            background: #2979FF;
+          }
+        }
+      }
+    }
+  }
+  
+  .modal-quote-post-container {
+    border: solid 1px #2f3336;
+    background: #16181c; 
+    border-radius: 8px;
+    padding-bottom: 16px;
+  }
+  

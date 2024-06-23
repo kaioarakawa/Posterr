@@ -37,7 +37,7 @@ namespace Application.UseCases
         public async Task Handle(CreatePostRequest request)
         {
             // Check if user has already posted or reposted more than 5 times today
-            if (await _postRepository.GetUserPostCountAsync(request.UserId) >= 5)
+            if (await _postRepository.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow) >= 5)
             {
                 throw new Exception("Daily post limit exceeded.");
             }
@@ -56,7 +56,7 @@ namespace Application.UseCases
         public async Task Handle(CreateRepostRequest request)
         {
             // Check if user has already posted or reposted more than 5 times today
-            if (await _postRepository.GetUserPostCountAsync(request.UserId) >= 5)
+            if (await _postRepository.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow) >= 5)
             {
                 throw new Exception("Daily post limit exceeded.");
             }

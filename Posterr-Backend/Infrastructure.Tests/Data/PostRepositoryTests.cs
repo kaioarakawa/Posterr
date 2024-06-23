@@ -73,7 +73,7 @@ namespace Infrastructure.Tests.Data
 
                 // Act
                 var user = new User { Id = Guid.NewGuid() }; // Simulate user
-                var count = await repository.GetUserPostCountAsync(user.Id);
+                var count = await repository.GetUserPostCountAsync(user.Id, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
 
                 // Assert
                 Assert.Equal(2, count); // Only 2 posts within the last 24 hours

@@ -21,6 +21,7 @@ builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<CreatePostHandler>();
 builder.Services.AddScoped<GetPostsHandler>();
+builder.Services.AddScoped<GetUsersHandler>();
 builder.Services.AddScoped<GetUserHandler>();
 
 builder.Services.AddHostedService<DatabaseSeeder>();
@@ -34,12 +35,23 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
+// Enable CORS
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+           .AllowAnyHeader()
+           .AllowAnyMethod();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Posterr API V1");
+    });
 }
 
 app.UseHttpsRedirection();

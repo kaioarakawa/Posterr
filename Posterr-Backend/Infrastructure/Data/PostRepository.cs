@@ -18,11 +18,35 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<List<Post>> GetPostsAsync(int skip, int take, string sortBy, string keyword)
+        public async Task<int> GetTotalPostsCountAsync(string? keyword, Guid? userId)
         {
             var query = _context.Posts.AsQueryable();
-           
-            query = query.Include(p => p.User).Include(p => p.OriginalPost);
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(p => p.Content.Contains(keyword));
+            }
+
+            if (userId.HasValue)
+            {
+                query = query.Where(p => p.UserId == userId);
+            }
+
+            return await query.CountAsync();
+        }
+
+        public async Task<List<Post>> GetPostsAsync(int skip, int take, string sortBy, string keyword, Guid? userId = null)
+        {
+            var query = _context.Posts.AsQueryable();
+
+            query = query.Include(p => p.User)
+                 .Include(p => p.OriginalPost)
+                    .ThenInclude(op => op.User);
+
+            if (userId.HasValue)
+            {
+                query = query.Where(p => p.User.Id == userId);
+            }
 
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -43,9 +67,21 @@ namespace Infrastructure.Data
             return await query.Skip(skip).Take(take).ToListAsync();
         }
 
-        public async Task<int> GetUserPostCountAsync(Guid userId)
+        public async Task<int> GetUserPostCountAsync(Guid userId, DateTime? startDate = null, DateTime? endDate = null)
         {
-            return await _context.Posts.CountAsync(p => p.UserId == userId && p.CreatedAt >= DateTime.UtcNow.AddDays(-1));
+            IQueryable<Post> query = _context.Posts.Where(p => p.UserId == userId);
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(p => p.CreatedAt >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(p => p.CreatedAt <= endDate.Value);
+            }
+
+            return await query.CountAsync();
         }
 
         public async Task AddPostAsync(Post post)
@@ -63,11 +99,11 @@ namespace Infrastructure.Data
         public async Task<Post?> GetPostByIdAsync(int id)
         {
             var post = await _context.Posts
-                .Include(p => p.User) // Include related user entity if needed
-                .Include(p => p.OriginalPost) // Include original post entity if needed
+                .Include(p => p.User)
+                .Include(p => p.OriginalPost)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
-            return post; // Will return null if post with specified id is not found
+            return post;
         }
     }
 }

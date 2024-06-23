@@ -13,7 +13,7 @@ namespace Application.Tests.UseCases
         {
             // Arrange
             var mockRepository = new Mock<IPostRepository>();
-            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "latest", null))
+            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "latest", null, null))
                          .ReturnsAsync(new List<Post>
                          {
                              new Post { Id = 1, Content = "Post 1", User = new User { Username = "user1" } },
@@ -34,11 +34,11 @@ namespace Application.Tests.UseCases
 
             // Assert
             Xunit.Assert.NotNull(result);
-            Xunit.Assert.Equal(2, result.Count);
-            Xunit.Assert.Equal("Post 1", result[0].Content);
-            Xunit.Assert.Equal("user1", result[0].Username);
-            Xunit.Assert.Equal("Post 2", result[1].Content);
-            Xunit.Assert.Equal("user2", result[1].Username);
+            Xunit.Assert.Equal(2, result.Posts.Count);
+            Xunit.Assert.Equal("Post 1", result.Posts[0].Content);
+            Xunit.Assert.Equal("user1", result.Posts[0].User.Username);
+            Xunit.Assert.Equal("Post 2", result.Posts[1].Content);
+            Xunit.Assert.Equal("user2", result.Posts[1].User.Username);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace Application.Tests.UseCases
         {
             // Arrange
             var mockRepository = new Mock<IPostRepository>();
-            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "latest", null))
+            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "latest", null, null))
                          .ReturnsAsync(new List<Post>());
 
             var handler = new GetPostsHandler(mockRepository.Object);
@@ -63,7 +63,7 @@ namespace Application.Tests.UseCases
 
             // Assert
             Xunit.Assert.NotNull(result);
-            Xunit.Assert.Empty(result);
+            Xunit.Assert.Empty(result.Posts);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Application.Tests.UseCases
         {
             // Arrange
             var mockRepository = new Mock<IPostRepository>();
-            mockRepository.Setup(repo => repo.GetPostsAsync(10, 5, "latest", null))
+            mockRepository.Setup(repo => repo.GetPostsAsync(10, 5, "latest", null, null))
                          .ReturnsAsync(new List<Post>
                          {
                              new Post { Id = 1, Content = "Post 1", User = new User { Username = "user1" } },
@@ -92,7 +92,7 @@ namespace Application.Tests.UseCases
 
             // Assert
             Xunit.Assert.NotNull(result);
-            Xunit.Assert.Equal(2, result.Count); // Ensure it returns exactly 2 items as per mock data
+            Xunit.Assert.Equal(2, result.Posts.Count); // Ensure it returns exactly 2 items as per mock data
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace Application.Tests.UseCases
         {
             // Arrange
             var mockRepository = new Mock<IPostRepository>();
-            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "default", null))
+            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "default", null, null))
                          .ReturnsAsync(new List<Post>
                          {
                              new Post { Id = 1, Content = "Post 1", User = new User { Username = "user1" } },
@@ -121,11 +121,11 @@ namespace Application.Tests.UseCases
 
             // Assert
             Xunit.Assert.NotNull(result);
-            Xunit.Assert.Equal(2, result.Count);
-            Xunit.Assert.Equal("Post 1", result[0].Content); // Ensure default sorting behavior is applied
-            Xunit.Assert.Equal("user1", result[0].Username);
-            Xunit.Assert.Equal("Post 2", result[1].Content);
-            Xunit.Assert.Equal("user2", result[1].Username);
+            Xunit.Assert.Equal(2, result.Posts.Count);
+            Xunit.Assert.Equal("Post 1", result.Posts[0].Content); // Ensure default sorting behavior is applied
+            Xunit.Assert.Equal("user1", result.Posts[0].User.Username);
+            Xunit.Assert.Equal("Post 2", result.Posts[1].Content);
+            Xunit.Assert.Equal("user2", result.Posts[1].User.Username);
         }
 
         [Fact]
@@ -133,7 +133,7 @@ namespace Application.Tests.UseCases
         {
             // Arrange
             var mockRepository = new Mock<IPostRepository>();
-            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "latest", "keyword"))
+            mockRepository.Setup(repo => repo.GetPostsAsync(0, 10, "latest", "keyword", null))
                          .ReturnsAsync(new List<Post>
                          {
                              new Post { Id = 1, Content = "Post with keyword", User = new User { Username = "user1" } },
@@ -154,9 +154,9 @@ namespace Application.Tests.UseCases
 
             // Assert
             Xunit.Assert.NotNull(result);
-            Xunit.Assert.Single(result); // Only one post should match the keyword
-            Xunit.Assert.Equal("Post with keyword", result[0].Content);
-            Xunit.Assert.Equal("user1", result[0].Username);
+            Xunit.Assert.Single(result.Posts); // Only one post should match the keyword
+            Xunit.Assert.Equal("Post with keyword", result.Posts[0].Content);
+            Xunit.Assert.Equal("user1", result.Posts[0].User.Username);
         }
     }
 }

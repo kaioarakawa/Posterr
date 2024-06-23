@@ -32,9 +32,17 @@ namespace API.Controllers
 
             var postDto = new PostDto
             {
-                Username = post.User.Username,
                 Content = post.Content,
                 CreatedAt = post.CreatedAt,
+            };
+
+            postDto.User = new UserDto
+            {
+                Id = post.User.Id,
+                Name = post.User.Name,
+                Username = post.User.Username,
+                TotalPosts = 0,
+                CreatedAt = post.User.CreatedAt
             };
 
             // Check if this post has an original post
@@ -43,9 +51,17 @@ namespace API.Controllers
                 // Map the original post to OriginalPost property
                 postDto.OriginalPost = new PostDto
                 {
-                    Username = post.OriginalPost.User.Username,
                     Content = post.OriginalPost.Content,
                     CreatedAt = post.OriginalPost.CreatedAt
+                };
+
+                postDto.OriginalPost.User = new UserDto
+                {
+                    Id = post.OriginalPost.User.Id,
+                    Name = post.OriginalPost.User.Name,
+                    Username = post.OriginalPost.User.Username,
+                    TotalPosts = 0,
+                    CreatedAt = post.OriginalPost.User.CreatedAt
                 };
             }
 
@@ -66,7 +82,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("/repost")]
+        [HttpPost("repost")]
         public async Task<IActionResult> RepostPost([FromBody] CreateRepostRequest request)
         {
             try

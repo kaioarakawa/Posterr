@@ -10,6 +10,6 @@ namespace Domain.Interfaces
     public interface IUserRepository
     {
         Task<List<User>> GetUsersAsync();
-        Task<User> GetUserByIdAsync(Guid userId);
+        Task<User?> GetUserByIdAsync(Guid userId);
     }
 }

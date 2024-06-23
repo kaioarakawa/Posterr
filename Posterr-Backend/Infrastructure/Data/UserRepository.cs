@@ -23,9 +23,12 @@ namespace Infrastructure.Data
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(Guid userId)
+        public async Task<User?> GetUserByIdAsync(Guid userId)
         {
-            return await _context.Users.FindAsync(userId);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(p => p.Id == userId);
+
+            return user; // Will return null if post with specified id is not found
         }
     }
 }

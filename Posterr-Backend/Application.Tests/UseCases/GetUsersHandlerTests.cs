@@ -12,14 +12,15 @@ using Xunit;
 
 namespace Application.Tests.UseCases
 {
-    public class GetUserHandlerTests
+    public class GetUsersHandlerTests
     {
         [Fact]
         public async Task Handle_ReturnsListOfUserDtos()
         {
             // Arrange
             var mockUserRepository = new Mock<IUserRepository>();
-
+            var mockPostRepository = new Mock<IPostRepository>();
+            
             // Simulate data returned from repository
             var mockUsers = new List<User>
             {
@@ -28,7 +29,14 @@ namespace Application.Tests.UseCases
             };
             mockUserRepository.Setup(repo => repo.GetUsersAsync()).ReturnsAsync(mockUsers);
 
-            var handler = new GetUserHandler(mockUserRepository.Object);
+            mockPostRepository.Setup(repo => repo.GetPostsAsync(0, 10, "latest", null, null))
+                         .ReturnsAsync(new List<Post>
+                         {
+                             new Post { Id = 1, Content = "Post 1", User = new User { Username = "user1" } },
+                             new Post { Id = 2, Content = "Post 2", User = new User { Username = "user2" } }
+                         });
+
+            var handler = new GetUsersHandler(mockUserRepository.Object, mockPostRepository.Object);
 
             // Act
             var result = await handler.Handle();
