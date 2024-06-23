@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "YourStrongPassword123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - api-network
+
+  api:
+    build:
+      context: ./Posterr-Backend
+      dockerfile: Dockerfile
+      args:
+        - BUILD_ENVIRONMENT=development
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=db;Database=PosterrDB;User=sa;Password=YourStrongPassword123;MultipleActiveResultSets=true;Encrypt=False;TrustServerCertificate=True"
+    networks:
+      - api-network
+  web:
+    build: ./Posterr-Frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - api-network
+
+networks:
+  api-network:
+    driver: bridge

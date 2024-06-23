@@ -38,9 +38,15 @@ const Home = () => {
                     keyword: filter
                 }
             });
-            setPosts(prevPosts => (page === 1 ? res.data.posts : [...prevPosts, ...res.data.posts]));
-            setCurrentPage(res.data.currentPage);
-            setTotalPosts(res.data.totalPosts);
+            if (res.data.posts.length === 0) {
+                // No more posts to fetch
+                setPosts(prevPosts => (page === 1 ? [] : prevPosts));
+                setTotalPosts(0);
+            } else {
+                setPosts(prevPosts => (page === 1 ? res.data.posts : [...prevPosts, ...res.data.posts]));
+                setCurrentPage(res.data.currentPage);
+                setTotalPosts(res.data.totalPosts);
+            }
             setLoading(false);
         } catch (error) {
             setError(error.message);
@@ -141,7 +147,7 @@ const Home = () => {
                             return (
                                 <div key={post.id} className="post-wrapper" ref={lastPostElementRef}>
                                     <Post post={post} />
-                                    {!post.originalPost && (
+                                    {(!post.originalPost && post.user.id !== selectedUser.id ) && (
                                         <div className="post-buttons-container">
                                             <button onClick={() => handleRepost(repostId)}>
                                                 <AiOutlineRetweet size={20} />
@@ -157,7 +163,7 @@ const Home = () => {
                             return (
                                 <div key={post.id} className="post-wrapper">
                                     <Post post={post} />
-                                    {!post.originalPost && (
+                                    {(!post.originalPost && post.user.id !== selectedUser.id ) && (
                                         <div className="post-buttons-container">
                                             <button onClick={() => handleRepost(repostId)}>
                                                 <AiOutlineRetweet size={20} />
