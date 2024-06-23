@@ -28,8 +28,8 @@ namespace Infrastructure.Tests.Data
             using (var context = new AppDbContext(_options))
             {
                 context.Users.AddRange(
-                    new User { Id = Guid.NewGuid(), Username = "user1", CreatedAt = DateTime.UtcNow },
-                    new User { Id = Guid.NewGuid(), Username = "user2", CreatedAt = DateTime.UtcNow }
+                    new User { Id = Guid.NewGuid(), Name = "teste", Username = "user1", CreatedAt = DateTime.UtcNow },
+                    new User { Id = Guid.NewGuid(), Name = "teste", Username = "user2", CreatedAt = DateTime.UtcNow }
                 );
                 await context.SaveChangesAsync();
             }
@@ -53,7 +53,7 @@ namespace Infrastructure.Tests.Data
         {
             // Arrange
             var userId = Guid.NewGuid();
-            var user = new User { Id = userId, Username = "testuser", CreatedAt = DateTime.UtcNow };
+            var user = new User { Id = userId, Name = "teste", Username = "testuser", CreatedAt = DateTime.UtcNow };
 
             using (var context = new AppDbContext(_options))
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs
 {
-    public class GetPostsResponse
+    public class GetPostsResponseDTO
     {
         public int CurrentPage { get; set; }
         public int TotalPosts { get; set; }

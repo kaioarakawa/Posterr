@@ -34,7 +34,7 @@ namespace Application.UseCases
             _postRepository = postRepository;
         }
 
-        public async Task Handle(CreatePostRequest request)
+        public virtual async Task Handle(CreatePostRequest request)
         {
             // Check if user has already posted or reposted more than 5 times today
             if (await _postRepository.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow) >= 5)
@@ -53,7 +53,7 @@ namespace Application.UseCases
             await _postRepository.AddPostAsync(post);
         }
 
-        public async Task Handle(CreateRepostRequest request)
+        public virtual async Task Handle(CreateRepostRequest request)
         {
             // Check if user has already posted or reposted more than 5 times today
             if (await _postRepository.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow) >= 5)
@@ -66,6 +66,11 @@ namespace Application.UseCases
             if (post == null)
             {
                 throw new Exception("This post not exist to repost them.");
+            }
+
+            if (post.User.Id == request.UserId)
+            {
+                throw new Exception("You cant repost you own post.");
             }
 
             // Check if user has already reposted this post

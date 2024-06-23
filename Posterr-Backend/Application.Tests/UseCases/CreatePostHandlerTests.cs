@@ -20,7 +20,7 @@ namespace Application.Tests.UseCases
                 Content = "Test post content"
             };
 
-            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow))
+            mockRepository.Setup(repo => repo.GetUserPostCountAsync(It.IsAny<Guid>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
                           .ReturnsAsync(0); // Mocking GetUserPostCountAsync to return 0
 
             // Act
@@ -42,11 +42,12 @@ namespace Application.Tests.UseCases
                 Content = "Test post content"
             };
 
-            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow))
-                          .ReturnsAsync(5); // Mocking GetUserPostCountAsync to return 5 (limit exceeded)
+            // Configurando o mock para retornar 5 posts em qualquer intervalo de tempo (limite excedido)
+            mockRepository.Setup(repo => repo.GetUserPostCountAsync(It.IsAny<Guid>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
+                          .ReturnsAsync(5);
 
             // Act & Assert
-            await Xunit.Assert.ThrowsAsync<Exception>(async () => await handler.Handle(request));
+            var exception = await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(request));
         }
 
         [Fact]
@@ -62,11 +63,19 @@ namespace Application.Tests.UseCases
                 PostId = 1 // Assuming PostId exists for testing
             };
 
-            mockRepository.Setup(repo => repo.GetUserPostCountAsync(request.UserId, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow))
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test",
+                Username = "Test",
+                CreatedAt = DateTime.UtcNow,
+            };
+
+            mockRepository.Setup(repo => repo.GetUserPostCountAsync(It.IsAny<Guid>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
                           .ReturnsAsync(0); // Mocking GetUserPostCountAsync to return 0
 
             mockRepository.Setup(repo => repo.GetPostByIdAsync(request.PostId))
-                          .ReturnsAsync(new Post { Id = request.PostId }); // Mocking GetPostByIdAsync to return a post
+                          .ReturnsAsync(new Post { Id = request.PostId, User = user }); // Mocking GetPostByIdAsync to return a post
 
             mockRepository.Setup(repo => repo.HasUserRepostedAsync(request.UserId, request.PostId))
                           .ReturnsAsync(false); // Mocking HasUserRepostedAsync to return false
@@ -95,7 +104,7 @@ namespace Application.Tests.UseCases
                           .ReturnsAsync((Post)null); // Mocking GetPostByIdAsync to return null (post not found)
 
             // Act & Assert
-            await Xunit.Assert.ThrowsAsync<Exception>(async () => await handler.Handle(request));
+            await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(request));
         }
 
         [Fact]
@@ -111,14 +120,53 @@ namespace Application.Tests.UseCases
                 PostId = 1 // Assuming PostId exists for testing
             };
 
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test",
+                Username = "Test",
+                CreatedAt = DateTime.UtcNow,
+            };
+
             mockRepository.Setup(repo => repo.GetPostByIdAsync(request.PostId))
-                          .ReturnsAsync(new Post { Id = request.PostId }); // Mocking GetPostByIdAsync to return a post
+                          .ReturnsAsync(new Post { Id = request.PostId, User = user }); // Mocking GetPostByIdAsync to return a post
 
             mockRepository.Setup(repo => repo.HasUserRepostedAsync(request.UserId, request.PostId))
                           .ReturnsAsync(true); // Mocking HasUserRepostedAsync to return true (already reposted)
 
             // Act & Assert
-            await Xunit.Assert.ThrowsAsync<Exception>(async () => await handler.Handle(request));
+            await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(request));
+        }
+
+        [Fact]
+        public async Task Handle_CreateRepost_PostedByUser_ThrowsException()
+        {
+            // Arrange
+            var mockRepository = new Mock<IPostRepository>();
+            var handler = new CreatePostHandler(mockRepository.Object);
+            var request = new CreateRepostRequest
+            {
+                UserId = Guid.NewGuid(),
+                Content = "Test repost content",
+                PostId = 1 // Assuming PostId exists for testing
+            };
+
+            var user = new User
+            {
+                Id = request.UserId,
+                Name = "Test",
+                Username = "Test",
+                CreatedAt = DateTime.UtcNow,
+            };
+
+            mockRepository.Setup(repo => repo.GetPostByIdAsync(request.PostId))
+                          .ReturnsAsync(new Post { Id = request.PostId, User = user }); // Mocking GetPostByIdAsync to return a post
+
+            mockRepository.Setup(repo => repo.HasUserRepostedAsync(request.UserId, request.PostId))
+                          .ReturnsAsync(true); // Mocking HasUserRepostedAsync to return true (already reposted)
+
+            // Act & Assert
+            await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(request));
         }
     }
 }

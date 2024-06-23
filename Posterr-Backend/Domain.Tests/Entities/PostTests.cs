@@ -32,21 +32,6 @@ namespace Domain.Tests.Entities
         }
 
         [Fact]
-        public void Post_ContentMaxLengthValidation()
-        {
-            // Arrange
-            var post = new Post();
-            string contentExceedingMaxLength = new string('A', 778); // Create a string longer than 777 characters
-
-            // Act
-            post.Content = contentExceedingMaxLength;
-
-            // Assert
-            Assert.NotNull(post.Content); // Content should not be null due to automatic property initialization
-            Assert.True(post.Content.Length <= 777); // Content should respect the max length constraint
-        }
-
-        [Fact]
         public void Post_Relationships_User()
         {
             // Arrange

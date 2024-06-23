@@ -14,7 +14,7 @@ namespace Application.UseCases
             _postRepository = postRepository;
         }
 
-        public async Task<List<UserDto>> Handle()
+        public virtual async Task<List<UserDto>> Handle()
         {
             var users = await _userRepository.GetUsersAsync();
 

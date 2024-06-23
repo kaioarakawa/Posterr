@@ -19,7 +19,7 @@ namespace Application.UseCases
             _postRepository = postRepository;
         }
 
-        public async Task<UserDto> Handle(Guid id)
+        public virtual async Task<UserDto> Handle(Guid id)
         {
             var user = await _userRepository.GetUserByIdAsync(id) ?? throw new Exception("User not found");
             var totalPosts = await _postRepository.GetUserPostCountAsync(user.Id);
