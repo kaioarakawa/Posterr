@@ -42,12 +42,12 @@ namespace Application.Tests.UseCases
             var result = await handler.Handle();
 
             // Assert
-            Xunit.Assert.NotNull(result);
-            Xunit.Assert.Equal(2, result.Count);
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
 
             // Additional assertions if needed
-            Xunit.Assert.Equal(mockUsers[0].Id, result[0].Id);
-            Xunit.Assert.Equal(mockUsers[1].Username, result[1].Username);
+            Assert.Equal(mockUsers[0].Id, result[0].Id);
+            Assert.Equal(mockUsers[1].Username, result[1].Username);
         }
     }
 }

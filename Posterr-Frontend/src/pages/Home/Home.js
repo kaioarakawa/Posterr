@@ -38,28 +38,32 @@ const Home = () => {
   }, [sortOrder, filter]);
 
   const fetchPosts = async (page, take) => {
-    setLoading(true);
-    const skip = (page - 1) * take;
-    try {
-      const res = await api.get("/posts", {
-        params: {
-          skip: skip,
-          take: take,
-          sortBy: sortOrder,
-          keyword: filter,
-        },
-      });
-      setPosts((prevPosts) =>
-        page === 1 ? res.data.posts : [...prevPosts, ...res.data.posts]
-      );
-      setCurrentPage(res.data.currentPage);
-      setTotalPosts(res.data.totalPosts);
-      setLoading(false);
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-      showErrorMessage(`Failed to fetch posts: ${error.message}`);
-    }
+      setLoading(true);
+      const skip = (page - 1) * take;
+      try {
+          const res = await api.get('/posts', {
+              params: {
+                  skip: skip,
+                  take: take,
+                  sortBy: sortOrder,
+                  keyword: filter
+              }
+          });
+          if (res.data.posts.length === 0) {
+              // No more posts to fetch
+              setPosts(prevPosts => (page === 1 ? [] : prevPosts));
+              setTotalPosts(0);
+          } else {
+              setPosts(prevPosts => (page === 1 ? res.data.posts : [...prevPosts, ...res.data.posts]));
+              setCurrentPage(res.data.currentPage);
+              setTotalPosts(res.data.totalPosts);
+          }
+          setLoading(false);
+      } catch (error) {
+          setError(error.message);
+          setLoading(false);
+          showErrorMessage(`Failed to fetch posts: ${error.message}`);
+      }
   };
 
   const handleCreatePost = async () => {
@@ -174,7 +178,7 @@ const Home = () => {
                     ref={lastPostElementRef}
                   >
                     <Post post={post} />
-                    {!post.originalPost && (
+                    {( !post.originalPost && post.user.id !== selectedUser.id ) && (
                       <div className="post-buttons-container flex justify-between border-t pt-2 border-transparent">
                         <button
                           className="flex items-center justify-center gap-2 w-1/2"

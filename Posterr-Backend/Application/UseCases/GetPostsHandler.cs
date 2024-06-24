@@ -14,6 +14,7 @@ namespace Application.UseCases
         public int Skip { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Take must be greater than zero.")]
         public int Take { get; set; }
+        [RegularExpression("^(latest|trending)$", ErrorMessage = "SortBy must be 'latest' or 'trending'.")]
         public string SortBy { get; set; }
         public string? Keyword { get; set; }
         public Guid? UserId { get; set; }
@@ -28,7 +29,7 @@ namespace Application.UseCases
             _postRepository = postRepository;
         }
 
-        public async Task<GetPostsResponse> Handle(GetPostsRequest request)
+        public virtual async Task<GetPostsResponseDTO> Handle(GetPostsRequest request)
         {
             // Get total count of posts for pagination
             int totalPosts = await _postRepository.GetTotalPostsCountAsync(request.Keyword, request.UserId, request.SortBy);
@@ -82,7 +83,7 @@ namespace Application.UseCases
             // Calculate current page based on skip and take
             int currentPage = (request.Skip / request.Take) + 1;
 
-            return new GetPostsResponse
+            return new GetPostsResponseDTO
             {
                 CurrentPage = currentPage,
                 TotalPosts = totalPosts,
