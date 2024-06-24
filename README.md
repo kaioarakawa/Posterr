@@ -109,7 +109,7 @@ The `Post` class represents user posts with the following properties:
 
 ## Deploy
 
-This project is prepared to be deployed on any cloud, before that you need to make some configurations in the docker files and in the bank connection, but as an improvement it is something that will easily be done
+This project is prepared to be deployed on any cloud, before that you need to make some configurations in the docker files and in the database connection, but as an improvement it is something that will easily be done
 
 ## Technologies
 

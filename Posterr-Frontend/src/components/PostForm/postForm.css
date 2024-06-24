@@ -11,39 +11,39 @@
         overflow: auto;
         font-family: inherit;
         font-size: medium;
-        min-height: 48px; /* 2 * $space-large (24px) */
-        max-height: 192px; /* 8 * $space-large (24px) */
+        min-height: 48px;
+        max-height: 192px; 
       }
   
       > .post-limit-warn {
-        color: #e7dc0e; /* $color-warn */
+        color: #e7dc0e; 
       }
   
       .post-form-button-container {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        padding: 8px 0 8px; /* $space-small */
+        padding: 8px 0 8px;
   
         > span {
-          color: #71767b; /* $color-text-secondary */
-          padding-right: 8px; /* $space-small */
-          border-right: solid 1px #2f3336; /* $divider */
+          color: #71767b; 
+          padding-right: 8px; 
+          border-right: solid 1px #2f3336; 
           font-weight: bold;
         }
   
         > button {
           border: none;
           font-weight: bold;
-          color: #fff; /* $color-text-main */
-          background: #2979FF; /* $color-active */
+          color: #fff; 
+          background: #2979FF; 
           font-size: medium;
-          border-radius: 8px; /* $space-medium */
-          margin-left: 8px; /* $space-small */
-          padding: 6px; /* $space-small */
+          border-radius: 8px; 
+          margin-left: 8px; 
+          padding: 6px; 
   
           > span {
-            margin: 0 8px; /* $space-small */
+            margin: 0 8px;
           }
   
           &:hover {
@@ -52,8 +52,8 @@
           }
   
           &:disabled {
-            color: #6a7280; /* $color-text-disabled */
-            background: #191919; /* $color-disabled */
+            color: #6a7280; 
+            background: #191919;
   
             &:hover {
               cursor: auto;

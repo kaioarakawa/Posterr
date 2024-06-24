@@ -3,23 +3,23 @@
     top: 0;
     width: 100%;
     z-index: 100;
-    padding: 8px; /* Adjust padding as needed */
-    background: #292929; /* Use your background color */
-    border-bottom: 1px solid #2f3336; /* variables.$divider or custom color */
+    padding: 8px; 
+    background: #292929;
+    border-bottom: 1px solid #2f3336; 
   }
   
   .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px; /* Adjust padding as needed */
+    padding: 0 16px; 
   }
   
   .poster-title {
-    font-size: 24px; /* Adjust font size as needed */
+    font-size: 24px; 
     font-weight: bold;
-    color: #fece32; /* variables.$color-active or custom color */
-    margin-right: 16px; /* Adjust margin as needed */
+    color: #fece32; 
+    margin-right: 16px;
   }
   
   .header-buttons-container {
@@ -30,9 +30,9 @@
   .header-buttons-container a {
     display: flex;
     align-items: center;
-    color: #fff; /* variables.$color-text-main or custom color */
+    color: #fff;
     text-decoration: none;
-    margin-right: 16px; /* Adjust margin as needed */
+    margin-right: 16px; 
   }
   
   .header-user-container {
@@ -42,18 +42,18 @@
   
   .header-user-container img {
     border-radius: 50%;
-    height: 40px; /* Adjust height as needed */
-    width: 40px; /* Adjust width as needed */
-    margin-right: 8px; /* Adjust margin as needed */
+    height: 40px; 
+    width: 40px;
+    margin-right: 8px; 
   }
   
   .header-user-container select {
     appearance: none;
     background-color: transparent;
-    color: white; /* variables.$color-text-main or custom color */
+    color: white;
     border: none;
-    padding: 8px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust font size as needed */
+    padding: 8px;
+    font-size: 16px;
     cursor: pointer;
     outline: none;
   }
