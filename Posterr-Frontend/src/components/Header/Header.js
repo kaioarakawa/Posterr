@@ -3,7 +3,7 @@ import { FaHome, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/userContext";
 
-import "./header.css";
+import "./Header.css";
 
 const Header = () => {
   const { users, selectedUser, updateUser } = useContext(UserContext);

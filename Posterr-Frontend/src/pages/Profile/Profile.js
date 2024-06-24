@@ -7,9 +7,10 @@ import React, {
 } from "react";
 import api from "../../services/api";
 import { VscCalendar } from "react-icons/vsc";
-import PostForm from "../../components/PostForm/PostForm";
-import Header from "../../components/Header/Header";
-import Post from "../../components/Post/Post";
+import PersonIcon from "../../components/common/personIcon/PersonIcon";
+import PostForm from "../../components/postForm/PostForm";
+import Header from "../../components/header/Header";
+import Post from "../../components/post/Post";
 import { UserContext } from "../../contexts/userContext";
 import { useParams } from "react-router-dom";
 import {
@@ -17,7 +18,7 @@ import {
   showErrorMessage,
 } from "../../utils/sweetalertUtils";
 
-import "./profile.css";
+import "./Profile.css";
 
 const Profile = () => {
   const defaultUser = {
@@ -120,11 +121,7 @@ const Profile = () => {
       <div className="px-12 pb-8 pt-20 text-gray-500">
         <div className="user-page-container">
           <div className="flex gap-8 mb-8">
-            <img
-              src="/user_default.png"
-              alt="logged-user-avatar"
-              className="rounded-sm w-32"
-            />
+            <PersonIcon size="xl" border="square" />
 
             <div className="user-data-container-2">
               <div className="user-username-container">

@@ -1,5 +1,7 @@
 import React from "react";
-import "./postForm.css";
+import Button from "../common/button/Button";
+import PersonIcon from "../common/personIcon/PersonIcon";
+import "./PostForm.css";
 
 const PostForm = ({
   newPostContent,
@@ -16,7 +18,7 @@ const PostForm = ({
 
   return (
     <div className="post-form-wrapper">
-      <img src="/user_default.png" alt="logged-user-avatar" />
+      <PersonIcon size="md" />
 
       <div className="post-form-container">
         <textarea
@@ -30,12 +32,11 @@ const PostForm = ({
 
         <div className="post-form-button-container">
           <span>{newPostContent.length}/777</span>
-          <button
-            onClick={handlePostButtonClick}
+          <Button
+            text="Post"
+            action={handlePostButtonClick}
             disabled={!newPostContent.trim().length}
-          >
-            <span>Post</span>
-          </button>
+          />
         </div>
       </div>
     </div>

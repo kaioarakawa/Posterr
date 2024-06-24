@@ -1,0 +1,29 @@
+.poster-button {
+  border: none;
+  font-weight: bold;
+  color: #fff; /* $color-text-main */
+  background: #2979FF; /* $color-active */
+  font-size: medium;
+  border-radius: 8px; /* $space-medium */
+  margin-left: 8px; /* $space-small */
+  padding: 6px; /* $space-small */
+
+  > span {
+    margin: 0 8px; /* $space-small */
+  }
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    color: #6a7280; /* $color-text-disabled */
+    background: #191919; /* $color-disabled */
+
+    &:hover {
+      cursor: auto;
+      opacity: 1;
+    }
+  }
+}

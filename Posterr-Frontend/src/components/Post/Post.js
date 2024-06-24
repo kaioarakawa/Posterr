@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import PersonIcon from "../common/personIcon/PersonIcon";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import moment from "moment";
 // import { format } from "date-fns";
 // import { usePosts } from "../../hooks";
-import "./post.css";
+import "./Post.css";
 
 const LinkToUserPage = ({ postItem, children }) => (
   <Link to={`/user/${postItem.user.id}`}>{children}</Link>
@@ -26,18 +27,12 @@ const Post = ({ post }) => {
           {!!postItem.originalPost && !!postItem.content && (
             <div className="repost-info-container ">
               <div className="flex items-center gap-1 mb-2">
-                <img
-                  src="/user_default.png"
-                  alt="logged-user-avatar"
-                  className="h-8 rounded-full"
-                />
+                <PersonIcon size="sm" />
                 <LinkToUserPage postItem={postItem}>
-                  <span className="post-info-username text-[#CCD6DD]">{`@${postItem.user.username}`}</span>
+                  <span className="post-info-username">{`@${postItem.user.username}`}</span>
                 </LinkToUserPage>
               </div>
-              <span className="post-info-content text-[#CCD6DD]">
-                {postItem.content}
-              </span>
+              <span className="post-info-content">{postItem.content}</span>
             </div>
           )}
 
@@ -55,15 +50,9 @@ const Post = ({ post }) => {
             <div className="post-info-container">
               <div className="mb-2">
                 <div className="flex gap-2 items-center">
-                  {!postItem.originalPost && (
-                    <img
-                      src="/user_default.png"
-                      alt="logged-user-avatar"
-                      className="h-8 rounded-full"
-                    />
-                  )}
+                  {!postItem.originalPost && <PersonIcon size="sm" />}
                   <LinkToUserPage postItem={postItem}>
-                    <span className="post-info-username text-[#CCD6DD]">{`@${postItem.user.username}`}</span>
+                    <span className="post-info-username">{`@${postItem.user.username}`}</span>
                   </LinkToUserPage>
                   <span className="post-info-date text-gray-500 text-sm">{`• ${moment(
                     postItem.createdAt
@@ -71,9 +60,7 @@ const Post = ({ post }) => {
                 </div>
               </div>
 
-              <span className="post-text text-[#CCD6DD]">
-                {postItem.content}
-              </span>
+              <span className="post-info-content">{postItem.content}</span>
             </div>
           )}
 
