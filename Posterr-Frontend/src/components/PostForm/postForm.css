@@ -1,6 +1,5 @@
 .post-form-wrapper {
     display: flex;
-    padding: 16px;
   
     > img {
       border-radius: 100%;
@@ -13,7 +12,7 @@
   
     .post-form-container {
       width: 100%;
-      padding: 0 16px;
+      padding: 0 0 0 16px;
   
       > textarea {
         width: 100%;
@@ -48,9 +47,9 @@
           color: #fff; /* $color-text-main */
           background: #2979FF; /* $color-active */
           font-size: medium;
-          border-radius: 16px; /* $space-medium */
+          border-radius: 8px; /* $space-medium */
           margin-left: 8px; /* $space-small */
-          padding: 8px; /* $space-small */
+          padding: 6px; /* $space-small */
   
           > span {
             margin: 0 8px; /* $space-small */
@@ -62,8 +61,8 @@
           }
   
           &:disabled {
-            color: #C6C6C6; /* $color-text-disabled */
-            background: #EBEBE4; /* $color-disabled */
+            color: #6a7280; /* $color-text-disabled */
+            background: #191919; /* $color-disabled */
   
             &:hover {
               cursor: auto;

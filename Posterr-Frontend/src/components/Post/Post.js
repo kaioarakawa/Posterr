@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import moment from "moment";
 // import { format } from "date-fns";
 // import { usePosts } from "../../hooks";
 import "./post.css";
@@ -19,40 +20,69 @@ const Post = ({ post }) => {
   if (!postItem) return null;
 
   return (
-    <div key={postItem.id} className="post-card">
+    <div key={postItem.id} className="post-card mb-2 ">
       <div className="post-content-container">
-        {!postItem.originalPost && (
-          <img src="/user_default.png" alt="logged-user-avatar" />
-        )}
-
         <div className={postItem.originalPost ? "repost-info" : "post-info"}>
-          {postItem.originalPost ? (
-            <div className="repost-info-container">
-              <AiOutlineRetweet size={20} />
+          {!!postItem.originalPost && !!postItem.content && (
+            <div className="repost-info-container ">
+              <div className="flex items-center gap-1 mb-2">
+                <img
+                  src="/user_default.png"
+                  alt="logged-user-avatar"
+                  className="h-8 rounded-full"
+                />
+                <LinkToUserPage postItem={postItem}>
+                  <span className="post-info-username text-[#CCD6DD]">{`@${postItem.user.username}`}</span>
+                </LinkToUserPage>
+              </div>
+              <span className="post-info-content text-[#CCD6DD]">
+                {postItem.content}
+              </span>
+            </div>
+          )}
+
+          {!!postItem.originalPost && !postItem.content && (
+            <div className="repost-info-container flex items-center gap-1">
+              <AiOutlineRetweet size={16} />
               <LinkToUserPage postItem={postItem}>
-                <span>{postItem.user.name}</span>
+                <span>{postItem.user.name} reposted</span>
               </LinkToUserPage>
-              <span>Reposted</span>
-              <span className="post-info-date">{`• ${new Date(postItem.createdAt)}`}</span>
               <span className="post-info-content">{postItem.content}</span>
             </div>
-          ) : (
+          )}
+
+          {!postItem.originalPost && (
             <div className="post-info-container">
-              <div>
-                {/* <span className="post-info-name">{postItem.user.name}</span> */}
-                <LinkToUserPage postItem={postItem}>
-                  <span className="post-info-username">{`@${postItem.user.username}`}</span>
-                </LinkToUserPage>
-                <span className="post-info-date">{`• ${new Date(postItem.createdAt)}`}</span>
+              <div className="mb-2">
+                <div className="flex gap-2 items-center">
+                  {!postItem.originalPost && (
+                    <img
+                      src="/user_default.png"
+                      alt="logged-user-avatar"
+                      className="h-8 rounded-full"
+                    />
+                  )}
+                  <LinkToUserPage postItem={postItem}>
+                    <span className="post-info-username text-[#CCD6DD]">{`@${postItem.user.username}`}</span>
+                  </LinkToUserPage>
+                  <span className="post-info-date text-gray-500 text-sm">{`• ${moment(
+                    postItem.createdAt
+                  ).format("MMM DD, YYYY")}`}</span>
+                </div>
               </div>
 
-              <span className="post-text">{postItem.content}</span>
+              <span className="post-text text-[#CCD6DD]">
+                {postItem.content}
+              </span>
             </div>
-
           )}
 
           {postItem.originalPost && (
-            <div className="sub-post-container">
+            <div
+              className={`sub-post-container border p-2 rounded-md border-gray-500 my-4 ${
+                postItem.content ? "ml-8" : ""
+              }`}
+            >
               <Post post={postItem.originalPost} />
             </div>
           )}

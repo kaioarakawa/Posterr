@@ -1,37 +1,45 @@
-import React from 'react';
+import React from "react";
 import "./postForm.css";
 
-const PostForm = ({ newPostContent, handleCreatePost, updateNewPostContent }) => {
-    function handleTextChange(event) {
-        updateNewPostContent(event.target.value);
-    }
+const PostForm = ({
+  newPostContent,
+  handleCreatePost,
+  updateNewPostContent,
+}) => {
+  function handleTextChange(event) {
+    updateNewPostContent(event.target.value);
+  }
 
-    const handlePostButtonClick = async () => {
-        await handleCreatePost();
-    }
-    
-    return (
+  const handlePostButtonClick = async () => {
+    await handleCreatePost();
+  };
+
+  return (
     <div className="post-form-wrapper">
-        <img src="/user_default.png" alt="logged-user-avatar" />
+      <img src="/user_default.png" alt="logged-user-avatar" />
 
-        <div className="post-form-container">
+      <div className="post-form-container">
         <textarea
-            placeholder="Start a post"
-            rows={5}
-            maxLength={777}
-            value={newPostContent}
-            onChange={handleTextChange}
+          placeholder="Start a post"
+          rows={5}
+          maxLength={777}
+          value={newPostContent}
+          onChange={handleTextChange}
+          className="border-black border rounded-md p-2 border-gray-500 bg-[#0c0c0c] text-gray-500"
         />
 
         <div className="post-form-button-container">
-            <span>{newPostContent.length}/777</span>
-            <button onClick={handlePostButtonClick} disabled={!newPostContent.trim().length}>
+          <span>{newPostContent.length}/777</span>
+          <button
+            onClick={handlePostButtonClick}
+            disabled={!newPostContent.trim().length}
+          >
             <span>Post</span>
-            </button>
+          </button>
         </div>
-        </div>
+      </div>
     </div>
-    );
+  );
 };
-    
+
 export default PostForm;

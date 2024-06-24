@@ -31,7 +31,7 @@ namespace Application.UseCases
         public async Task<GetPostsResponse> Handle(GetPostsRequest request)
         {
             // Get total count of posts for pagination
-            int totalPosts = await _postRepository.GetTotalPostsCountAsync(request.Keyword, request.UserId);
+            int totalPosts = await _postRepository.GetTotalPostsCountAsync(request.Keyword, request.UserId, request.SortBy);
 
             // Get the posts for the current page
             var posts = await _postRepository.GetPostsAsync(request.Skip, request.Take, request.SortBy, request.Keyword, request.UserId);

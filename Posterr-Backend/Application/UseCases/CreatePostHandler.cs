@@ -68,6 +68,11 @@ namespace Application.UseCases
                 throw new Exception("This post not exist to repost them.");
             }
 
+            if (post.User.Id == request.UserId)
+            {
+                throw new Exception("You cant repost you own post.");
+            }
+
             // Check if user has already reposted this post
             var hasReposted = await _postRepository.HasUserRepostedAsync(request.UserId, request.PostId);
             if (hasReposted)

@@ -18,7 +18,7 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<int> GetTotalPostsCountAsync(string? keyword, Guid? userId)
+        public async Task<int> GetTotalPostsCountAsync(string? keyword, Guid? userId, string sortBy)
         {
             var query = _context.Posts.AsQueryable();
 
@@ -30,6 +30,11 @@ namespace Infrastructure.Data
             if (userId.HasValue)
             {
                 query = query.Where(p => p.UserId == userId);
+            }
+
+            if (sortBy == "trending")
+            {
+                query = query.Where(x => !x.OriginalPostId.HasValue);
             }
 
             return await query.CountAsync();
@@ -56,7 +61,7 @@ namespace Infrastructure.Data
             if (sortBy == "trending")
             {
                 // Order by number of reposts for trending posts
-                query = query.OrderByDescending(p => _context.Posts.Count(rp => rp.OriginalPostId == p.Id));
+                query = query.Where(x => !x.OriginalPostId.HasValue).OrderByDescending(p => _context.Posts.Count(rp => rp.OriginalPostId == p.Id));
             }
             else
             {

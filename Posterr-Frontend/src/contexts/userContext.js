@@ -4,10 +4,10 @@ import api from "../services/api";
 const UserContext = createContext();
 
 const defaultUser = {
-    id: 0,
-    name: null,
-    username: null,
-  };
+  id: 0,
+  name: null,
+  username: null,
+};
 
 const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
