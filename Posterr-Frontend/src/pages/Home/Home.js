@@ -6,10 +6,10 @@ import React, {
   useCallback,
 } from "react";
 import api from "../../services/api";
-import PostForm from "../../components/postForm/PostForm";
-import Post from "../../components/post/Post";
-import Header from "../../components/header/Header";
-import "./Home.css";
+import PostForm from "../../components/PostForm/PostForm";
+import Post from "../../components/Post/Post";
+import Header from "../../components/Header/Header";
+import "./home.css";
 import { FaRegEdit } from "react-icons/fa";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { UserContext } from "../../contexts/userContext";

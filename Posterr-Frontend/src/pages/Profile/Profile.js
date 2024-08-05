@@ -8,9 +8,9 @@ import React, {
 import api from "../../services/api";
 import { VscCalendar } from "react-icons/vsc";
 import PersonIcon from "../../components/common/personIcon/PersonIcon";
-import PostForm from "../../components/postForm/PostForm";
-import Header from "../../components/header/Header";
-import Post from "../../components/post/Post";
+import PostForm from "../../components/PostForm/PostForm";
+import Header from "../../components/Header/Header";
+import Post from "../../components/Post/Post";
 import { UserContext } from "../../contexts/userContext";
 import { useParams } from "react-router-dom";
 import {
@@ -18,7 +18,7 @@ import {
   showErrorMessage,
 } from "../../utils/sweetalertUtils";
 
-import "./Profile.css";
+import "./profile.css";
 
 const Profile = () => {
   const defaultUser = {

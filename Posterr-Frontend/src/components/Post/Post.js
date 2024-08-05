@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 // import { format } from "date-fns";
 // import { usePosts } from "../../hooks";
-import "./Post.css";
+import "./post.css";
 
 const LinkToUserPage = ({ postItem, children }) => (
   <Link to={`/user/${postItem.user.id}`}>{children}</Link>
@@ -25,7 +25,7 @@ const Post = ({ post }) => {
       <div className="post-content-container">
         <div className={postItem.originalPost ? "repost-info" : "post-info"}>
           {!!postItem.originalPost && !!postItem.content && (
-            <div className="repost-info-container ">
+            <div className="repost-info-container">
               <div className="flex items-center gap-1 mb-2">
                 <PersonIcon size="sm" />
                 <LinkToUserPage postItem={postItem}>

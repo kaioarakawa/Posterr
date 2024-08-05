@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../common/button/Button";
 import PersonIcon from "../common/personIcon/PersonIcon";
-import "./PostForm.css";
+import "./postForm.css";
 
 const PostForm = ({
   newPostContent,
